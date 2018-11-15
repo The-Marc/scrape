@@ -14,16 +14,24 @@ uClient.close()
 
 page_soup = soup(page_html, "html.parser")
 
-data = []
+symbols = []
+url = []
 container = page_soup.find_all("a", {"class": "fontS16px"})
 
-#use regex to only pull the noteworthy and notable symbols from the headlines
+#use regex to only pull the SYMBOLS that we want
 for a in container:
     symSearch = re.findall("Option Activity:(.[^<]*)", a.text)
     if symSearch:
-	    for r in symSearch:
-                data.append(r.strip())
-                print(r)
+        for r in symSearch:
+            symbols.append(r.strip())
+#pull the URLs that we want
+for a in container:
+    if re.search("Option Activity:(.[^<]*)", a.text) != None:
+        print("url found")
+        url.append(a.get('href'))
 
-print("Printing data[]: ")
-print(data)
+print("Printing symbols[]: ")
+print(symbols)
+
+print("Printing url[]: ")
+print(url)
